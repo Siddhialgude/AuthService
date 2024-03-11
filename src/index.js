@@ -6,9 +6,7 @@ const apiRoutes = require('./routes/index');
 const bodyParser= require('body-parser');
 const {PORT} =require('./config/serverConfig');
 
-// const bcrypt = require('bcrypt');
-// const {User} = require('./models/index');
-// const UserRepository = require('./repository/user-repository');
+const db =require('./models/index');
  
 const prepareAndStartServer = () =>{
 
@@ -18,14 +16,12 @@ const prepareAndStartServer = () =>{
  
   app.listen(PORT,async () => {
     console.log(`server started at ${PORT}`);
+    if(process.env.DB_SYNC){
+      db.sequelize.sync({alter:true});
+    }
+ 
+ 
 
-    // const repo = new UserRepository();
-    // const response = await repo.getById(2);
-    // console.log(response);
-    // //const incomingpassword = 'mochii';
-    // const user = await User.findByPk(5)
-    // const response = bcrypt.compareSync(incomingpassword,user.password); 
-    // console.log(response);
   });
 }
 prepareAndStartServer();
